@@ -16,12 +16,12 @@ def exit():
 	s.close()   
 
 
-def list():
+def list_files():
 	s.send(b'LIST')
 
 
-def upld(file_name):
-	s.send(b'UPLD')
+def upload_file(file_name):
+	s.send(b'upload')
 	s.send(file_name.encode())	
 	with open(file_name , 'rb') as f:	
 		l = f.read(1024)
@@ -30,8 +30,8 @@ def upld(file_name):
 			l = f.read(1024)
 			
 
-def dwld(file_name):
-	s.send(b'DWLD')
+def download_file(file_name):
+	s.send(b'download')
 	s.send(file_name.encode())
 
 	with open(file_name , 'wb') as f:
@@ -44,23 +44,23 @@ def dwld(file_name):
 
 def main():
 
-	print("\n\nWelcome to the FTP client.\n\nCall one of the following functions:\nUPLD file name : Upload file\nLIST           : List files\nDWLD  file name: Download file\nEXIT           : Exit\n")
+	print("\n\nWelcome to the FTP client.\n\nCall one of the following functions:\nupload file name : Upload file\nlist           : List files\ndownload  file name: Download file\nEXIT           : Exit\n")
 	while True:
 		print('enter a command')
 		inp = input()
 	
-		if inp[:4] == 'LIST':
-			list()
+		if inp[:4] == 'list':
+			list_files()
 
 		elif inp[:4] == 'EXIT':
 			exit()
 			break
 
-		elif inp[:4] == 'UPLD':
-			upld(inp[5:])
+		elif inp[:6] == 'upload':
+			upload_file(inp[7:])
 
-		elif inp[:4] == 'DWLD':	
-			dwld(inp[5:])
+		elif inp[:8] == 'download':	
+			download_file(inp[9:])
 		else:
 			print('Command not recognised; please try again')
 
